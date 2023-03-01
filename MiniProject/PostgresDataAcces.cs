@@ -61,6 +61,32 @@ namespace MiniProject
             }
 
         }
+
+        //read project name 
+        public static List<ProjectsModel> currunt_project()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ProjectsModel>("SELECT * FROM resk_project", new DynamicParameters());
+
+                return output.ToList();
+
+            }
+
+        }
+
+        //read project person
+        public static List<ProjectPerson> currunt_project_person()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ProjectPerson>("SELECT * FROM resk_project_person", new DynamicParameters());
+
+                return output.ToList();
+
+            }
+
+        }
         public static string LoadConnectionString(string id = "person_project")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
