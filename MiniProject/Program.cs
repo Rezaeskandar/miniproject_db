@@ -61,7 +61,23 @@ namespace MiniProject
 
             // Define the submenu options
             List<PersonModel> submenuOptions = PostgresDataAcces.currunt_person();
+
+            //added a back oppetion object 
+            PersonModel backOption = new PersonModel()
+            {
+                id = -1, // Use a negative ID to identify the "Back" option
+                person_name = "\nBack"
+            };
+            submenuOptions.Add(backOption);
+
             List<ProjectsModel> submenuOptionsProject = PostgresDataAcces.currunt_project();
+            //added a back oppetion object 
+            ProjectsModel backOptionProject = new ProjectsModel()
+            {
+                id = -1, // Use a negative ID to identify the "Back" option
+                project_name = "\nBack"
+            };
+            submenuOptionsProject.Add(backOptionProject);
 
             // Display the main menu and execute the selected option
             while (true)
@@ -89,11 +105,14 @@ namespace MiniProject
                         while (true)
                         {
                             int submenuSelectedIndexProject = DisplaySubMenuAndGetSelectionProject(submenuOptionsProject);
+                           
                             if (submenuSelectedIndexProject == submenuOptionsProject.Count - 1)
                             {
+                               
                                 break;
 
                             }
+
                             Console.WriteLine("Enter your hours.");
                             int hours = int.Parse(Console.ReadLine());
 
@@ -226,8 +245,9 @@ namespace MiniProject
 
 
         //sub menu 
-        static int DisplaySubMenuAndGetSelection(List<PersonModel> submenuOptions)
+        static int DisplaySubMenuAndGetSelection(List<PersonModel> submenuOptions )
         {
+           
             // Set the initial selected index
             int selectedIndex = 0;
 
@@ -292,13 +312,17 @@ namespace MiniProject
                         Console.WriteLine("|  " + submenuOptionsProject[i].project_name);
 
                         Console.ResetColor();
+                        
                     }
                     else
                     {
                         Console.WriteLine("  " + submenuOptionsProject[i].project_name);
+                        
                     }
 
                 }
+
+               
                 // Read the user's key input and handle arrow keys
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 switch (keyInfo.Key)
