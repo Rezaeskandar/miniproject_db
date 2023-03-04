@@ -8,5 +8,8 @@ namespace MiniProject
         public int project_id { get; set; }
         public int person_id { get; set; }
         public string hours { get; set; }
+        List<ProjectsModel> projects { get; set; }
+        List<PersonModel> personModels { get; set; }
+      
     }
 }
