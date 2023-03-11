@@ -36,18 +36,44 @@ namespace MiniProject
         }
 
         //register hours
-        public static void hoursRegisteration(int project_id, int person_id, int hours)
+        public static void hoursRegisteration(int submenuSelectedIndexProject, int submenuSelectedIndex, int hours)
         {
 
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                string sql = "insert into resk_project_person (project_id,person_id, hours) values (@project_id ,@person_id , @hours)";
-                cnn.Execute(sql, new { project_id ,person_id ,hours });
+                string sql = "insert into resk_project_person (project_id,person_id, hours) values (@submenuSelectedIndexProject ,@submenuSelectedIndex , @hours)";
+                cnn.Execute(sql, new { submenuSelectedIndexProject, submenuSelectedIndex ,hours });
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Hours successfully registered!.");
                 Console.ResetColor();
             }
         }
+
+
+        
+
+        public static void UpdateHoursRegistration(int submenuSelectedIndexProject, int submenuSelectedIndex, int newHour)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                string sql = "UPDATE resk_project_person SET hours = @newHour WHERE project_id = @submenuSelectedIndexProject AND person_id = @submenuSelectedIndex";
+                cnn.Execute(sql, new { newHour, submenuSelectedIndexProject, submenuSelectedIndex });
+               
+            }
+        }
+
+        //read hours
+
+        public static List<ProjectPerson> readHours()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ProjectPerson>("SELECT * FROM resk_project_person", new DynamicParameters());
+
+                return output.ToList();
+            }
+        }
+
 
         //read peson name 
         public static List<PersonModel> currunt_person()

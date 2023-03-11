@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.VisualBasic;
+using Npgsql.Replication.PgOutput.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -55,9 +57,9 @@ namespace MiniProject
 
                 }
             }
-
+          
             // Define the main menu options
-            List<string> mainMenuOptions = new List<string>() { "Create Person ", "Create Project ", "Registeration", "Exit" };
+            List<string> mainMenuOptions = new List<string>() { "Create Person ", "Create Project ", "Registeration","Update", "Exit" };
 
             // Define the submenu options
             List<PersonModel> submenuOptions = PostgresDataAcces.currunt_person();
@@ -80,8 +82,11 @@ namespace MiniProject
             submenuOptionsProject.Add(backOptionProject);
 
             // Display the main menu and execute the selected option
+          
             while (true)
             {
+                int submenuSelectedIndexProject;
+                int submenuSelectedIndex;
                 int selectedIndex = DisplayMenuAndGetSelection( mainMenuOptions);
                 if (selectedIndex == mainMenuOptions.Count - 1)
                 {
@@ -92,7 +97,7 @@ namespace MiniProject
                     // Display the submenu and execute the selected option
                     while (true)
                     {
-                        int submenuSelectedIndex = DisplaySubMenuAndGetSelection(submenuOptions);
+                         submenuSelectedIndex = DisplaySubMenuAndGetSelection(submenuOptions);
                         if (submenuSelectedIndex == submenuOptions.Count - 1)
                         {
                              break;
@@ -104,7 +109,7 @@ namespace MiniProject
 
                         while (true)
                         {
-                            int submenuSelectedIndexProject = DisplaySubMenuAndGetSelectionProject(submenuOptionsProject);
+                             submenuSelectedIndexProject = DisplaySubMenuAndGetSelectionProject(submenuOptionsProject);
                            
                             if (submenuSelectedIndexProject == submenuOptionsProject.Count - 1)
                             {
@@ -125,6 +130,29 @@ namespace MiniProject
                        
                     }
                 }
+                //Uppdate
+                
+                else if (selectedIndex == 3)
+                {
+                   //update hours
+                   
+
+
+                        submenuSelectedIndexProject = UpdateName(submenuOptions);
+                       
+                        submenuSelectedIndex = UpdateProject(submenuOptionsProject);
+                    Console.WriteLine("Enter your Updated Hour");
+                    int newHour = int.Parse(Console.ReadLine());
+                  
+                        PostgresDataAcces.UpdateHoursRegistration(submenuSelectedIndexProject + 1, submenuSelectedIndex + 1, newHour);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Hours successfully updated!");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                    
+
+                }
+
                 else
                 {
                     ExecuteMainMenuOption(selectedIndex);
@@ -148,7 +176,7 @@ namespace MiniProject
                 foreach (PersonModel person in personList)
                 {
 
-                    Console.WriteLine($"PersonID: {person.id}   name: {person.person_name}");
+                    Console.WriteLine($"Name: {person.person_name}");
 
 
                 }
@@ -171,7 +199,7 @@ namespace MiniProject
                 foreach (ProjectsModel projects in projectList)
                 {
 
-                    Console.WriteLine($"ProjectID: {projects.id}   Project: {projects.project_name} ");
+                    Console.WriteLine($"ProjectName: {projects.project_name} ");
 
 
                 }
@@ -189,6 +217,9 @@ namespace MiniProject
             {
                 // Clear the console and display the menu options
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\n              ================= Wellcome system =================\n");
+                Console.ResetColor();
                 for (int i = 0; i < menuOptions.Count; i++)
                 {
                     if (i == selectedIndex)
@@ -219,6 +250,7 @@ namespace MiniProject
             }
         }
 
+
        
        public static void ExecuteMainMenuOption(int selectedIndex )
         {
@@ -234,9 +266,11 @@ namespace MiniProject
 
                     break;
                 case 2:
+                    //Console.WriteLine("What is your updated hours ? ");
+                    // int hours = int.Parse (Console.ReadLine());
+                    //PostgresDataAcces.uppdateHoursRegisteration(submenuSelectedIndexProject, submenuSelectedIndex, hours);
 
 
-                   
                     break;
             }
             Console.WriteLine("Press any key to continue...");
@@ -256,6 +290,9 @@ namespace MiniProject
             {
                 // Clear the console and display the menu options
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\n              ================= Chose you name =================\n");
+                Console.ResetColor();
                 for (int i = 0; i < submenuOptions.Count; i++)
                 {
                     if (i == selectedIndex)
@@ -304,6 +341,9 @@ namespace MiniProject
             {
                 // Clear the console and display the menu options
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\n              ================= Chose your project =================\n");
+                Console.ResetColor();
                 for (int i = 0; i < submenuOptionsProject.Count; i++)
                 {
                     if (i == selectedIndex)
@@ -341,7 +381,106 @@ namespace MiniProject
 
 
         }
-        static void ExecuteSubmenuOption(int selectedIndex)
+
+        //update
+        static int UpdateName(List<PersonModel> submenuOptions)
+        {
+            // Set the initial selected index
+            int selectedIndex = 0;
+
+            // Loop until the user selects an option
+            while (true)
+            {
+                
+
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\n              ================= Select your Name =================\n");
+                Console.ResetColor();
+                for (int i = 0; i < submenuOptions.Count; i++)
+                {
+                    if (i == selectedIndex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("|  " + submenuOptions[i].person_name);
+
+                        Console.ResetColor();
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("  " + submenuOptions[i].person_name);
+
+                    }
+
+                }
+
+
+                // Read the user's key input and handle arrow keys
+                ConsoleKeyInfo keyInfo2 = Console.ReadKey(true);
+                switch (keyInfo2.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        selectedIndex = (selectedIndex - 1 + submenuOptions.Count) % submenuOptions.Count;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedIndex = (selectedIndex + 1) % submenuOptions.Count;
+                        break;
+                    case ConsoleKey.Enter:
+                        return selectedIndex;
+                }
+
+            }
+
+
+        }
+        static int UpdateProject(List<ProjectsModel> submenuOptionsProject)
+        {
+            int selectedIndex = 0;
+            while (true)
+            {
+                
+                // Clear the console and display the menu options
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\n              ================= Select your project =================\n");
+                Console.ResetColor();
+                for (int i = 0; i < submenuOptionsProject.Count; i++)
+                {
+                    if (i == selectedIndex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("|  " + submenuOptionsProject[i].project_name);
+
+                        Console.ResetColor();
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("  " + submenuOptionsProject[i].project_name);
+
+                    }
+
+                }
+
+
+                // Read the user's key input and handle arrow keys
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        selectedIndex = (selectedIndex - 1 + submenuOptionsProject.Count) % submenuOptionsProject.Count;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedIndex = (selectedIndex + 1) % submenuOptionsProject.Count;
+                        break;
+                    case ConsoleKey.Enter:
+                        return selectedIndex;
+                }
+            }
+
+        }
+            static void ExecuteSubmenuOption(int selectedIndex)
         {
             switch (selectedIndex)
             {
