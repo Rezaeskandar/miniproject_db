@@ -79,7 +79,7 @@ ___
 
 For sure thier are meny better ways do implement this project thas looks better and more profecinall. But as much i know today this way worked for this small project well. It maby whould be better or speed more the project by using Entety Framwork but i can not so much abouwt that now.
 ## UML
-<img src ="https://user-images.githubusercontent.com/113901667/224511927-8644c141-58f7-478a-a7ab-cf9ca9a74751.png width="1200" height="500"">
+<img src ="https://user-images.githubusercontent.com/113901667/224511927-8644c141-58f7-478a-a7ab-cf9ca9a74751.png" width="1200" height="500">
 
 
 
