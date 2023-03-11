@@ -78,8 +78,9 @@ Is thier any other ways to do this ?
 ___
 
 For sure thier are meny better ways do implement this project thas looks better and more profecinall. But as much i know today this way worked for this small project well. It maby whould be better or speed more the project by using Entety Framwork but i can not so much abouwt that now.
-## This is the road map of the system 
-<img src="https://user-images.githubusercontent.com/113901667/212472744-5c6d82b7-1e7a-4a48-a478-4225dce93ff5.png" width="700" height="900">
+## UML
+<img src ="https://user-images.githubusercontent.com/113901667/224511927-8644c141-58f7-478a-a7ab-cf9ca9a74751.png width="1200" height="500"">
+
 
 
 ## Here is an overview from the console
